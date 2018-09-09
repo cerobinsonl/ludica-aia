@@ -1,46 +1,50 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
+import {Meteor} from "meteor/meteor";
 
 export default class OrderAdd extends Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state={
-
-    };
-  }
-
-  getUser(){
-    if(Meteor.user()==null){
-      window.alert("Por favor inicie sesión");
     }
-    else{
-      Meteor.user()._id;
+
+    getUser() {
+        if (Meteor.user() == null) {
+            window.alert("Por favor inicie sesión");
+        }
+        else {
+            Meteor.user()._id;
+        }
     }
-  }
 
-  render() {
-    return (
-      <div className="OrderAdd">
-        <h3>Unidades a pedir</h3>
+    render() {
+        return (
+            <div className="OrderAdd">
+                <h3>Unidades a pedir</h3>
 
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Text"
-          ref="text"/>
-        <button className="btn btn-primary"
-          onClick={
-            () =>
-              this.props.onAdd(this.refs.text.value, this.getUser())
-          }
-        >Add
-        </button>
-      </div>
-    );
-  }
+                <div className="row">
+                    <div className="col-md-8">
+                        <input
+                            required
+                            type="number"
+                            className="form-control"
+                            placeholder="Cantidad"
+                            ref="text"/>
+                    </div>
+                    <div className="col-md-4">
+                        <button className="btn btn-primary"
+                                onClick={
+                                    () =>
+                                        this.props.onAdd(parseInt(this.refs.text.value))
+                                }>Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }
 
 OrderAdd.propTypes = {
-  onAdd:PropTypes.func.isRequired
+    onAdd: PropTypes.func.isRequired
 };

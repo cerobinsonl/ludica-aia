@@ -4,55 +4,51 @@ import PropTypes from "prop-types";
 export default class Order extends Component {
   constructor(props) {
     super(props);
-
-    this.state={
-
-    };
   }
 
-  renderUser(){
-    if(Meteor.user()==undefined){return("No ha iniciado sesión")} else {return(Meteor.user().emails[0].address)}
-  }
 
-  renderNode(){
-
-    var aQuien = "";
-
-    if(Meteor.user() != undefined){
-
-
-      if(Meteor.user().emails[0].address == "minorista1@ua.com"){
-        console.log(Meteor.user().emails[0].address);
-        console.log("aquiiiiiii");
-        console.log(Meteor.users.findOne({"emails.address": "cd@ua.com"}));
-      }
-      else{
-        console.log("no se pudo");
-      }
-
+    accept() {
+        Meteor.call("orders.accept", this.props.order._id);
     }
-    else{
-      console.log("nadaaaaaa");
+
+    decline() {
+        Meteor.call("orders.decline", this.props.order._id);
     }
-    
-  }
+
+    textoAceptada() {
+      if (this.props.order.answered&&this.props.order.result) return "Aceptada";
+      else if (this.props.order.answered&&!this.props.order.result) return "-";
+    }
+    textoRechazada() {
+        if (this.props.order.answered&&this.props.order.result) return "-";
+        else if (this.props.order.answered&&!this.props.order.result) return "Rechazada";
+    }
 
   render() {
     return (
-      <div className="Order panel panel-default">
-      <div className="panel-body">
-        <div>Cliente: </div>
-        <div>Proveedor </div>
-        <div>Unidades {this.props.order.count}</div>
-        <div>Holaaa {this.renderUser() }</div>
-        <div>{console.log(Meteor.user())}</div>
-        <div>{console.log(this.renderNode())}</div>
-        </div>
-      </div>
+      <tr>
+        <td>
+            {this.props.order.clientEmail}
+        </td>
+        <td>
+            {this.props.order.amount}
+        </td>
+        <td>
+            {this.props.order.answered? this.textoAceptada():
+                <a onClick={this.accept.bind(this)}>
+                    <i className="fa fa-check"/>
+                </a>}
+        </td>
+        <td>
+            {this.props.order.answered? this.textoRechazada()
+                :
+                <a onClick={this.decline.bind(this)}>
+                    <i className="fa fa-times"/>
+                </a>
+            }
+        </td>
+      </tr>
+
     );
   }
 }
-
-Order.propTypes = {
-  order: PropTypes.object.isRequired,
-};
