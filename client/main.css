@@ -2,3 +2,12 @@
 a {
     cursor: pointer;
 }
+textarea {
+    resize: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-top: 5px !important;
+    min-width: 100%;
+    min-height: 35vh;
+}

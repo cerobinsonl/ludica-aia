@@ -13,4 +13,6 @@ Meteor.startup(() => {
     Roles.addUsersToRoles("4uSwX3p3fwzpJFff3", 'planta');
 
     Roles.addUsersToRoles("rGiCZSWYL4MqCaBEr", 'cd');
+
+    Roles.addUsersToRoles("Tfs6C5Z2yZzhg7syQ", 'admin');
 });
