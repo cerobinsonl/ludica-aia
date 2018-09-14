@@ -37,16 +37,17 @@ export class App extends Component {
         this.setState({simulation: true});
         console.log(time);
         const id = Meteor.setInterval(this.simulate, time * 1000);
-        Meteor.setTimeout(this.endSimulation.bind(null, id), 1000)
+        Meteor.setTimeout(this.endSimulation.bind(null, id), 420000)
     }
 
     simulate() {
         this.setState({iteration: this.state.iteration + 1});
-
+        Meteor.call("orders.simulate");
     }
 
     endSimulation(id) {
         Meteor.clearInterval(id);
+        Meteor.call("orders.delete");
         this.setState({end: true});
     }
 
@@ -73,7 +74,7 @@ export class App extends Component {
     }
 
     printResults() {
-        let results = "";
+        let results = "[";
         this.props.all.forEach((item) => {
             let amount = item.amount;
             let answered = item.answered;
@@ -82,16 +83,11 @@ export class App extends Component {
             let providerEmail = item.providerEmail;
 
             let entry =
-                `   {
-                    cantidad: ${amount},
-                    estado: ${!answered?"En espera de respuesta":result},
-                    cliente: ${clientEmail},
-                    proveedor: ${providerEmail}
-                },
-                `;
+                `{"cantidad": "${amount}","estado": "${!answered?"En espera de respuesta":result}","cliente": "${clientEmail}","proveedor": "${providerEmail}"},`;
             results = results.concat(entry);
         });
-        results = results.substr(0,results.length-18);
+        results = results.substr(0,results.length-1);
+        if (results.length>5)results = results.concat("]");
         return results;
     }
 
@@ -150,7 +146,7 @@ export class App extends Component {
                                                         </div>
                                                         <div className="col-row">
                                                             <textarea className="boxsizingBorder"
-                                                                      id="results" readOnly value={this.printResults()}></textarea>
+                                                                      id="results" defaultValue={this.printResults()}></textarea>
                                                         </div>
                                                     </div>
                                                     : ""
