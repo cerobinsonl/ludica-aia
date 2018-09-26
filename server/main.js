@@ -5,15 +5,15 @@ import "../imports/api/orders";
 
 Meteor.startup(() => {
   // code to run on server at startup
-    Roles.addUsersToRoles("BYoSKArdEhoqTvCGJ", 'minorista');
-    Roles.addUsersToRoles("h89m9k9Yk5YCy7K6Z", 'minorista');
-    Roles.addUsersToRoles("YvFfSJzPRh6MvsbQh", 'minorista');
-    Roles.addUsersToRoles("tR4vi5GeAtQBrcdfN", 'minorista');
+    Roles.addUsersToRoles("vYDX7rXKLAGz3goQ5", 'minorista');
+    Roles.addUsersToRoles("EXS6xFMfYgBJr2uhw", 'minorista');
+    Roles.addUsersToRoles("wffmGJDABgWhDboWT", 'minorista');
+    Roles.addUsersToRoles("PqL5L8egzgvwGbQ2E", 'minorista');
 
-    Roles.addUsersToRoles("m3FfBFQm5aB5ShPtr", 'planta');
+    Roles.addUsersToRoles("ChZWr6iwZLS4aeByn", 'planta');
 
-    Roles.addUsersToRoles("rGiCZSWYL4MqCaBEr", 'cd');
+    Roles.addUsersToRoles("9Fxm5cRTnLc5vm3YD", 'cd');
 
-    Roles.addUsersToRoles("Tfs6C5Z2yZzhg7syQ", 'admin');
+    Roles.addUsersToRoles("otX2zZL9HiH7nPap9", 'admin');
 
 });

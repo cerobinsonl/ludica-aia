@@ -37,7 +37,7 @@ export class App extends Component {
         this.setState({simulation: true});
         console.log(time);
         const id = Meteor.setInterval(this.simulate, time * 1000);
-        Meteor.setTimeout(this.endSimulation.bind(null, id), 420000)
+        Meteor.setTimeout(this.endSimulation.bind(null, id), 30000)
     }
 
     simulate() {
