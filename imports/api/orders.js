@@ -56,5 +56,44 @@ Meteor.methods({
             Orders.update(obj._id, {
                 $set: { answered:true, result:false},});
         }
+    },
+    "orders.delete"(){
+        Orders.remove({});
+    },
+    "orders.simulate"(){
+        const minoristas = [
+            {
+                id: "Wom68RPx8ddp2yDdP",
+                email: "minorista1@ua.com"
+            },
+            {
+                id: "wTud3im676K6yCqom",
+                email: "minorista2@ua.com"
+            },
+            {
+                id: "w25F9AETjRreyrvyE",
+                email: "minorista3@ua.com"
+            },
+            {
+                id: "ZcadozYcZwfeucSHk",
+                email: "minorista4@ua.com"
+            }
+        ];
+
+        minoristas.forEach((min)=>{
+            const num = Math.floor(Math.random() * 50);
+            Orders.insert({
+                createdAt: new Date(),
+                provider: min.id,
+                providerEmail: min.email,
+                client: "cliente "+num,
+                clientEmail: "cliente"+num+"@ua.com",
+                amount: Math.floor(Math.random() * 10),
+                answered:false,
+                result:false
+            })
+        })
+
+
     }
 });
