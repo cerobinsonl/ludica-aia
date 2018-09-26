@@ -21,11 +21,11 @@ Meteor.methods({
         }
         let provider, providerEmail;
         if (Roles.userIsInRole(this.userId, "cd")){
-            provider = "4uSwX3p3fwzpJFff3";
+            provider = "m3FfBFQm5aB5ShPtr";
             providerEmail = "planta@ua.com";
         }
         else if (Roles.userIsInRole(this.userId, "minorista")){
-            provider = "rGiCZSWYL4MqCaBEr";
+            provider = "rpHJu3ghHub5FfrFD";
             providerEmail = "cd@ua.com";
         }
         Orders.insert({
