@@ -32,12 +32,12 @@ export class App extends Component {
     onAdd(amount) {
         Meteor.call("orders.insert", amount);
     }
-
+// Aqui se modificar el tiempo "  Meteor.setTimeout(this.endSimulation.bind(null, id), 30000) "
     onSubmit(time) {
         this.setState({simulation: true});
         console.log(time);
         const id = Meteor.setInterval(this.simulate, time * 1000);
-        Meteor.setTimeout(this.endSimulation.bind(null, id), 30000)
+        Meteor.setTimeout(this.endSimulation.bind(null, id), 60000)
     }
 
     simulate() {
