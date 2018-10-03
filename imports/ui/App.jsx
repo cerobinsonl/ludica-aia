@@ -81,9 +81,10 @@ export class App extends Component {
             let result = item.result ? "Aceptado" : "Rechazado";
             let clientEmail = item.clientEmail;
             let providerEmail = item.providerEmail;
+            let time = item.createdAt;
 
             let entry =
-                `{"cantidad": "${amount}","estado": "${!answered?"En espera de respuesta":result}","cliente": "${clientEmail}","proveedor": "${providerEmail}"},`;
+                `{"cantidad": "${amount}","estado": "${!answered?"En espera de respuesta":result}","cliente": "${clientEmail}","proveedor": "${providerEmail}", "tiempo": "${time}" },`;
             results = results.concat(entry);
         });
         results = results.substr(0,results.length-1);
