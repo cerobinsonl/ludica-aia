@@ -29,7 +29,7 @@ Meteor.methods({
             providerEmail = "cd@ua.com";
         }
         Orders.insert({
-            createdAt: new Date(),
+            createdAt: new Date().getMilliseconds(),
             provider,
             providerEmail,
             client: this.userId,
@@ -83,7 +83,7 @@ Meteor.methods({
         minoristas.forEach((min)=>{
             const num = Math.floor(Math.random() * 50);
             Orders.insert({
-                createdAt: new Date(),
+                createdAt: new Date().getMilliseconds(),
                 provider: min.id,
                 providerEmail: min.email,
                 client: "cliente "+num,
