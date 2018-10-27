@@ -36,7 +36,9 @@ Meteor.methods({
             clientEmail: Meteor.user().emails[0].address,
             amount,
             answered:false,
-            result:false
+            result:false,
+            acceptedAt: 0,
+            declinedAt: 0
         });
     },
     "orders.accept"(id){
@@ -45,7 +47,7 @@ Meteor.methods({
         if(order.length>0){
             let obj = order[0];
             Orders.update(obj._id, {
-                $set: { answered:true, result:true},});
+                $set: { answered:true, result:true, acceptedAt: new Date().valueOf() },});
         }
     },
     "orders.decline"(id){
@@ -54,7 +56,7 @@ Meteor.methods({
         if(order.length>0){
             let obj = order[0];
             Orders.update(obj._id, {
-                $set: { answered:true, result:false},});
+                $set: { answered:true, result:false, declinedAt: new Date().valueOf()},});
         }
     },
     "orders.delete"(){
@@ -90,7 +92,9 @@ Meteor.methods({
                 clientEmail: "cliente"+num+"@ua.com",
                 amount: Math.ceil(Math.random() * 9),
                 answered:false,
-                result:false
+                result:false,
+                acceptedAt:0,
+                declinedAt:0
             })
         })
 
