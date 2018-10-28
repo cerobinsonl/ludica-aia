@@ -19,13 +19,15 @@ export class App extends Component {
         this.state = {
             simulation: false,
             end: false,
-            iteration: 0
+            iteration: 0,
+            beginsAt: new Date().valueOf()
         }
         this.simulate = this.simulate.bind(this);
         this.endSimulation = this.endSimulation.bind(this);
         this.restart = this.restart.bind(this);
         this.printResults = this.printResults.bind(this);
         this.copy = this.copy.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
 
     }
 
@@ -33,11 +35,15 @@ export class App extends Component {
         Meteor.call("orders.insert", amount);
     }
 
-    onSubmit(time) {
+    onSubmit(simulationTime, intervalTime, orderTime) {
         this.setState({simulation: true});
-        console.log(time);
-        const id = Meteor.setInterval(this.simulate, time * 1000);
-        Meteor.setTimeout(this.endSimulation.bind(null, id), 30000)
+        let inicio = new Date().valueOf();
+        this.setState({beginsAt: inicio});
+        console.log(this.state.beginsAt)
+        console.log(intervalTime);
+        const id = Meteor.setInterval(this.simulate, intervalTime * 1000);
+        Meteor.setTimeout(this.endSimulation.bind(null, id), simulationTime * 60000)
+       
     }
 
     simulate() {
@@ -82,8 +88,8 @@ export class App extends Component {
             let clientEmail = item.clientEmail;
             let providerEmail = item.providerEmail;
             let Ctime = item.createdAt;
-            let Atime = item.acceptedAt;
-            let Dtime = item.declinedAt;
+            let Atime = item.acceptedAt - this.state.beginsAt;
+            let Dtime = item.declinedAt - this.state.beginsAt;
 
             let entry =
                 `{"cantidad": "${amount}","estado": "${!answered?"En espera de respuesta":result}","cliente": "${clientEmail}","proveedor": "${providerEmail}", "tiempoCreacion": "${Ctime}", "tiempoAceptar": "${Atime}", "tiempoDeclinar": "${Dtime}" },`;
@@ -91,6 +97,7 @@ export class App extends Component {
         });
         results = results.substr(0,results.length-1);
         if (results.length>5)results = results.concat("]");
+        
         return results;
     }
 
