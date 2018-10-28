@@ -35,6 +35,7 @@ export class App extends Component {
         Meteor.call("orders.insert", amount);
     }
 
+
     onSubmit(simulationTime, intervalTime, orderTime) {
         this.setState({simulation: true});
         let inicio = new Date().valueOf();
@@ -44,6 +45,8 @@ export class App extends Component {
         const id = Meteor.setInterval(this.simulate, intervalTime * 1000);
         Meteor.setTimeout(this.endSimulation.bind(null, id), simulationTime * 60000)
        
+
+
     }
 
     simulate() {
