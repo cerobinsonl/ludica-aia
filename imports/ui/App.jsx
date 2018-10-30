@@ -11,6 +11,8 @@ import {Meteor} from "meteor/meteor";
 import ReqList from "./ReqList";
 import AdminInput from "./AdminInput";
 
+import Countdown from 'react-countdown-now';
+
 
 export class App extends Component {
 
@@ -20,7 +22,9 @@ export class App extends Component {
             simulation: false,
             end: false,
             iteration: 0,
-            beginsAt: new Date().valueOf()
+            beginsAt: new Date().valueOf(),
+            countdownBegin: Date.now(),
+            simTime: 0
         }
         this.simulate = this.simulate.bind(this);
         this.endSimulation = this.endSimulation.bind(this);
@@ -39,7 +43,9 @@ export class App extends Component {
         this.setState({simulation: true});
         let inicio = new Date().valueOf();
         this.setState({beginsAt: inicio});
-        console.log(this.state.beginsAt)
+        this.setState({countdownBegin:Date.now()});
+        this.setState({simTime: simulationTime * 60000});
+        console.log(this.state.simTime);
         console.log(intervalTime);
         const id = Meteor.setInterval(this.simulate, intervalTime * 1000);
         Meteor.setTimeout(this.endSimulation.bind(null, id), simulationTime * 60000)
@@ -101,12 +107,16 @@ export class App extends Component {
         return results;
     }
 
+    
+        
 
     render() {
         return (
             <div className="App">
 
                 <div className="container">
+
+
                     <h1>Lúdica Logística AIA</h1>
 
                     <div id="sign-in-place">
@@ -115,6 +125,13 @@ export class App extends Component {
 
                     <hr/>
 
+
+                    <Countdown date={this.state.countdownBegin + this.state.simTime}>
+                       
+                    </Countdown>
+
+                    <hr/>
+                    
                     <div className="col-md-12 jumbotron">
 
                         {this.props.user && !Roles.userIsInRole(Meteor.userId(), "admin") ?
@@ -177,6 +194,7 @@ export class App extends Component {
         );
     }
 }
+
 
 
 export default withTracker(
