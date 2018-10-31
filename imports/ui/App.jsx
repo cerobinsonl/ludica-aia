@@ -46,18 +46,22 @@ export class App extends Component {
         this.setState({beginsAt: inicio});
         this.setState({countdownBegin:Date.now()});
         this.setState({simTime: simulationTime * 60000});
-        console.log(this.state.simTime);
-        console.log(intervalTime);
+
+
         const id = Meteor.setInterval(this.simulate, intervalTime * 1000);
         Meteor.setTimeout(this.endSimulation.bind(null, id), simulationTime * 60000)
-       
 
-
+        const id2 = Meteor.setInterval(this.expire.bind(null,orderTime*1000), 1000);
+        Meteor.setTimeout(this.endSimulation.bind(null, id2), simulationTime * 60000)
     }
 
     simulate() {
         this.setState({iteration: this.state.iteration + 1});
         Meteor.call("orders.simulate");
+    }
+
+    expire(time) {
+        Meteor.call("orders.checkExpired", time);
     }
 
     endSimulation(id) {
@@ -114,6 +118,7 @@ export class App extends Component {
         
 
     render() {
+
         return (
             <div className="App">
 
@@ -128,16 +133,12 @@ export class App extends Component {
 
                     <hr/>
 
-
-                    <Countdown date={this.state.countdownBegin + this.state.simTime}>
-                       
-                    </Countdown>
-
                     <hr/>
                     
                     <div className="col-md-12 jumbotron">
 
                         {this.props.user && !Roles.userIsInRole(Meteor.userId(), "admin") ?
+
                             <div className="col-sm-12">
                                 {Roles.userIsInRole(Meteor.userId(), "planta") ?
                                     ""
@@ -164,6 +165,9 @@ export class App extends Component {
                                         {this.state.simulation ?
                                             <div>
                                                 <h3>Iteración: {this.state.iteration}</h3>
+                                                <Countdown date={this.state.countdownBegin + this.state.simTime}>
+
+                                                </Countdown>
                                                 {this.state.end ?
                                                     <div>
                                                         <div className="col-row">

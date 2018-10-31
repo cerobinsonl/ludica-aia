@@ -42,7 +42,6 @@ export default class OrderList extends Component {
                     <tbody>
                     {this.renderOrders()}
                     </tbody>
-
                 </table>
 
             </div>

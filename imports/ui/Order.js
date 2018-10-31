@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 
 export default class Order extends Component {
   constructor(props) {
@@ -35,16 +34,22 @@ export default class Order extends Component {
         </td>
         <td>
             {this.props.order.answered? this.textoAceptada():
+                this.props.order.expired ?
+                    <p>Vencida</p>
+                    :
                 <a onClick={this.accept.bind(this)}>
                     <i className="fa fa-check"/>
-                </a>}
+                </a>
+            }
         </td>
         <td>
-            {this.props.order.answered? this.textoRechazada()
-                :
-                <a onClick={this.decline.bind(this)}>
-                    <i className="fa fa-times"/>
-                </a>
+            {this.props.order.answered ? this.textoRechazada():
+                this.props.order.expired ?
+                    <p>Vencida</p>
+                    :
+                    <a onClick={this.decline.bind(this)}>
+                        <i className="fa fa-times"/>
+                    </a>
             }
         </td>
       </tr>

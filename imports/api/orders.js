@@ -21,11 +21,11 @@ Meteor.methods({
         }
         let provider, providerEmail;
         if (Roles.userIsInRole(this.userId, "cd")){
-            provider = "ChZWr6iwZLS4aeByn";
+            provider = "4uSwX3p3fwzpJFff3";
             providerEmail = "planta@ua.com";
         }
         else if (Roles.userIsInRole(this.userId, "minorista")){
-            provider = "9Fxm5cRTnLc5vm3YD";
+            provider = "rGiCZSWYL4MqCaBEr";
             providerEmail = "cd@ua.com";
         }
         Orders.insert({
@@ -37,6 +37,7 @@ Meteor.methods({
             amount,
             answered:false,
             result:false,
+            expired:false,
             acceptedAt: 0,
             declinedAt: 0
         });
@@ -59,25 +60,37 @@ Meteor.methods({
                 $set: { answered:true, result:false, declinedAt: new Date().valueOf()},});
         }
     },
+    "orders.checkExpired"(expirationTime){
+        const orders = Orders.find({}).fetch();
+        const currentTime = new Date().valueOf()
+        orders.forEach((order)=>{
+            if ((currentTime-order.createdAt)>expirationTime){
+                if (!order.answered){
+                    Orders.update(order._id, {
+                        $set: { expired:true },});
+                }
+            }
+        })
+    },
     "orders.delete"(){
         Orders.remove({});
     },
     "orders.simulate"(){
         const minoristas = [
             {
-                id: "PqL5L8egzgvwGbQ2E",
+                id: "Wom68RPx8ddp2yDdP",
                 email: "minorista1@ua.com"
             },
             {
-                id: "wffmGJDABgWhDboWT",
+                id: "wTud3im676K6yCqom",
                 email: "minorista2@ua.com"
             },
             {
-                id: "EXS6xFMfYgBJr2uhw",
+                id: "w25F9AETjRreyrvyE",
                 email: "minorista3@ua.com"
             },
             {
-                id: "vYDX7rXKLAGz3goQ5",
+                id: "ZcadozYcZwfeucSHk",
                 email: "minorista4@ua.com"
             }
         ];
