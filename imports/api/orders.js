@@ -103,7 +103,7 @@ Meteor.methods({
                 providerEmail: min.email,
                 client: "cliente "+num,
                 clientEmail: "cliente"+num+"@ua.com",
-                amount: Math.ceil(Math.random() * 9),
+                amount: Math.ceil(Math.random() * 5),
                 answered:false,
                 result:false,
                 acceptedAt:0,
