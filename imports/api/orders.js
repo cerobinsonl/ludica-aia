@@ -102,6 +102,8 @@ Meteor.methods({
           var z = seed || 3;
           return function() {
             z = (a * z + c) % m;
+    var rand = createRand();
+    var a = rand() * 100
           };
         }
         minoristas.forEach((min)=>{
@@ -117,7 +119,7 @@ Meteor.methods({
 
  
        
-                amount: Math.ceil(return z/m * 7),
+                amount: Math.ceil(a * 7),
                 answered:false,
                 result:false,
                 acceptedAt:0,
