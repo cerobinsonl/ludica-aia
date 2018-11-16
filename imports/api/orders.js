@@ -94,7 +94,17 @@ Meteor.methods({
                 email: "minorista4@ua.com"
             }
         ];
-       function createRand(seed) {
+
+        minoristas.forEach((min)=>{
+            
+            const num = Math.floor(Math.random() * 50);
+            Orders.insert({
+                createdAt: new Date().valueOf(),
+                provider: min.id,
+                providerEmail: min.email,
+                client: "cliente "+num,
+                clientEmail: "cliente"+num+"@ua.com",
+                    function createRand(seed) {
   var m = 8;
   var a = 11;
   var c = 17;
@@ -106,16 +116,6 @@ Meteor.methods({
   };
 }
        
-        minoristas.forEach((min)=>{
-            
-            const num = Math.floor(Math.random() * 50);
-            Orders.insert({
-                createdAt: new Date().valueOf(),
-                provider: min.id,
-                providerEmail: min.email,
-                client: "cliente "+num,
-                clientEmail: "cliente"+num+"@ua.com",
-             
                 amount: Math.ceil(z/m * 7),
                 answered:false,
                 result:false,
