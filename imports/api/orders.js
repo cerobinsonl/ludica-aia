@@ -103,23 +103,8 @@ Meteor.methods({
                 provider: min.id,
                 providerEmail: min.email,
                 client: "cliente "+num,
-                clientEmail: "cliente"+num+"@ua.com",
-                 function createRand(seed) {
-          var m = 25;
-          var a = 11;
-          var c = 17;
-
-          var z = seed || 3;
-          return function() {
-            z = (a * z + c) % m;
-    var rand = createRand();
-    var a = rand() * 100
-          };
-        }
-
- 
-       
-                amount: Math.ceil(a * 7),
+                clientEmail: "cliente"+num+"@ua.com",   
+                amount: Math.ceil(Math.random()  * 7),
                 answered:false,
                 result:false,
                 acceptedAt:0,
