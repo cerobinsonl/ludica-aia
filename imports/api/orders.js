@@ -94,7 +94,9 @@ Meteor.methods({
                 email: "minorista4@ua.com"
             }
         ];
-
+        var m = 8;
+        var a = 11;
+        var c = 17;
         minoristas.forEach((min)=>{
             
             const num = Math.floor(Math.random() * 50);
@@ -104,17 +106,11 @@ Meteor.methods({
                 providerEmail: min.email,
                 client: "cliente "+num,
                 clientEmail: "cliente"+num+"@ua.com",
-                    function createRand(seed) {
-  var m = 8;
-  var a = 11;
-  var c = 17;
+                   
 
-  var z = seed || 3;
-  return function() {
-    z = (a * z + c) % m;
-    return z/m;
-  };
-}
+           z = (a * z + c) % m
+   
+
        
                 amount: Math.ceil(z/m * 7),
                 answered:false,
