@@ -117,7 +117,7 @@ Meteor.methods({
 
  
        
-                amount: Math.ceil(z/m * 7),
+                amount: Math.ceil(return z/m * 7),
                 answered:false,
                 result:false,
                 acceptedAt:0,
