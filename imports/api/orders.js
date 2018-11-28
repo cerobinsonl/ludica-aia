@@ -75,7 +75,7 @@ Meteor.methods({
     "orders.delete"(){
         Orders.remove({});
     },
-    "orders.simulate"(){
+    "orders.simulate"(r){
         const minoristas = [
             {
                 id: "PqL5L8egzgvwGbQ2E",
@@ -94,22 +94,25 @@ Meteor.methods({
                 email: "minorista4@ua.com"
             }
         ];
-         
+
         minoristas.forEach((min)=>{
             
             const num = Math.floor(Math.random() * 50);
+
             Orders.insert({
                 createdAt: new Date().valueOf(),
                 provider: min.id,
                 providerEmail: min.email,
                 client: "cliente "+num,
-                clientEmail: "cliente"+num+"@ua.com",   
-                amount: Math.ceil(Math.random()  * 7),
+                clientEmail: "cliente"+num+"@ua.com",
+                amount: Math.ceil(r * 7),
                 answered:false,
                 result:false,
                 acceptedAt:0,
                 declinedAt:0
             })
+
+           
         })
 
 
