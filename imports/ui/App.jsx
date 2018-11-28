@@ -24,7 +24,8 @@ export class App extends Component {
             iteration: 0,
             beginsAt: new Date().valueOf(),
             countdownBegin: Date.now(),
-            simTime: 0
+            simTime: 0,
+            primero: 6
         }
         this.simulate = this.simulate.bind(this);
         this.endSimulation = this.endSimulation.bind(this);
@@ -56,8 +57,19 @@ export class App extends Component {
     }
 
     simulate() {
+
+        const a = 33;
+        const c = 5;
+        const m = 32;
+
+            
+        let nuevo = (a * this.state.primero + c) % m;
+
+        let r = nuevo / m;
+
+        this.setState({primero: nuevo})
         this.setState({iteration: this.state.iteration + 1});
-        Meteor.call("orders.simulate");
+        Meteor.call("orders.simulate", r);
     }
 
     expire(time) {
@@ -132,6 +144,10 @@ export class App extends Component {
                     </div>
 
                     <hr/>
+
+                        <Countdown date={this.state.countdownBegin + this.state.simTime}>
+                        
+                     </Countdown>
 
                     <hr/>
                     
