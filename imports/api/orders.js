@@ -97,14 +97,14 @@ Meteor.methods({
         
         minoristas.forEach((min)=>{
             const num = Math.floor(Math.random() * 50);
-
+            
             Orders.insert({
                 createdAt: new Date().valueOf(),
                 provider: min.id,
                 providerEmail: min.email,
                 client: "cliente "+num,
                 clientEmail: "cliente"+num+"@ua.com",
-                amount: Math.ceil(r * 7),
+                amount: Math.ceil(Math.random() * 7),
                 answered:false,
                 result:false,
                 acceptedAt:0,
