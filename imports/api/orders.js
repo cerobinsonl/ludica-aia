@@ -94,8 +94,9 @@ Meteor.methods({
                 email: "minorista4@ua.com"
             }
         ];
-        
+
         minoristas.forEach((min)=>{
+            
             const num = Math.floor(Math.random() * 50);
             
             Orders.insert({
