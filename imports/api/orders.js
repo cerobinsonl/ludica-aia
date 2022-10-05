@@ -22,11 +22,11 @@ Meteor.methods({
         let provider, providerEmail;
         if (Roles.userIsInRole(this.userId, "cd")){
             provider = "gv8SmrruDGRDC3ocn";
-            providerEmail = "planta@ua.com";
+            providerEmail = "JCPlanta@gmail.com";
         }
         else if (Roles.userIsInRole(this.userId, "minorista")){
             provider = "TwcxoPqK3sAjfrHkk";
-            providerEmail = "cd@ua.com";
+            providerEmail = "JCCentroDistribucion@gmail.com";
         }
         Orders.insert({
             createdAt: new Date().valueOf(),
@@ -79,19 +79,19 @@ Meteor.methods({
         const minoristas = [
             {
                 id: "nA3mpTyp82cvoB5H9",
-                email: "minorista1@ua.com"
+                email: "JCMinorista1@gmail.com"
             },
             {
                 id: "B6kAnGu9ENkkXzWGH",
-                email: "minorista2@ua.com"
+                email: "JCMinorista2@gmail.com"
             },
             {
                 id: "LW3rg7druqbRhiRJg",
-                email: "minorista3@ua.com"
+                email: "JCMinorista3@gmail.com"
             },
             {
                 id: "Y8v9uEtjNJkKvN2wa",
-                email: "minorista4@ua.com"
+                email: "JCMinorista4@gmail.com"
             }
         ];
 
