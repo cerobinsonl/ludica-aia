@@ -21,11 +21,11 @@ Meteor.methods({
         }
         let provider, providerEmail;
         if (Roles.userIsInRole(this.userId, "cd")){
-            provider = "ChZWr6iwZLS4aeByn";
+            provider = "gv8SmrruDGRDC3ocn";
             providerEmail = "planta@ua.com";
         }
         else if (Roles.userIsInRole(this.userId, "minorista")){
-            provider = "9Fxm5cRTnLc5vm3YD";
+            provider = "TwcxoPqK3sAjfrHkk";
             providerEmail = "cd@ua.com";
         }
         Orders.insert({
@@ -78,19 +78,19 @@ Meteor.methods({
     "orders.simulate"(r){
         const minoristas = [
             {
-                id: "PqL5L8egzgvwGbQ2E",
+                id: "nA3mpTyp82cvoB5H9",
                 email: "minorista1@ua.com"
             },
             {
-                id: "wffmGJDABgWhDboWT",
+                id: "B6kAnGu9ENkkXzWGH",
                 email: "minorista2@ua.com"
             },
             {
-                id: "EXS6xFMfYgBJr2uhw",
+                id: "LW3rg7druqbRhiRJg",
                 email: "minorista3@ua.com"
             },
             {
-                id: "vYDX7rXKLAGz3goQ5",
+                id: "Y8v9uEtjNJkKvN2wa",
                 email: "minorista4@ua.com"
             }
         ];
