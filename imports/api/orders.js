@@ -92,6 +92,7 @@ Meteor.methods({
             {
                 id: "Y8v9uEtjNJkKvN2wa",
                 email: "JCMinorista4@gmail.com"
+                
             }
         ];
 
