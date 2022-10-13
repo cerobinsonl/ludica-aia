@@ -62,6 +62,7 @@ export class App extends Component {
         const c = 5;
         const m = 32;
 
+    
             
         let nuevo = (a * this.state.primero + c) % m;
 
