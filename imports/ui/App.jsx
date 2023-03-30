@@ -155,11 +155,12 @@ export class App extends Component {
                 if (item.result) puntaje -= (50 * item.amount) - 150; //Y si Aceptado
             }
 
-            this.setState({puntaje:puntaje});
+            
             let entry =
                 `{"cantidad": "${amount}","estado": "${!answered?"En espera de respuesta":result}","cliente": "${clientEmail}","proveedor": "${providerEmail}", "tiempoCreacion": "${Ctime}", "tiempoAceptar": "${Atime}", "tiempoDeclinar": "${Dtime}" },`;
             results = results.concat(entry);
         });
+        this.setState({puntaje:puntaje});
         results = results.substr(0,results.length-1);
         if (results.length>5)results = results.concat("]");
         
