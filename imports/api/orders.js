@@ -21,12 +21,12 @@ Meteor.methods({
         }
         let provider, providerEmail;
         if (Roles.userIsInRole(this.userId, "cd")){
-            provider = "ChZWr6iwZLS4aeByn";
-            providerEmail = "planta@ua.com";
+            provider = "gv8SmrruDGRDC3ocn";
+            providerEmail = "JCPlanta@gmail.com";
         }
         else if (Roles.userIsInRole(this.userId, "minorista")){
-            provider = "9Fxm5cRTnLc5vm3YD";
-            providerEmail = "cd@ua.com";
+            provider = "TwcxoPqK3sAjfrHkk";
+            providerEmail = "JCCentroDistribucion@gmail.com";
         }
         Orders.insert({
             createdAt: new Date().valueOf(),
@@ -78,20 +78,21 @@ Meteor.methods({
     "orders.simulate"(r){
         const minoristas = [
             {
-                id: "PqL5L8egzgvwGbQ2E",
-                email: "minorista1@ua.com"
+                id: "nA3mpTyp82cvoB5H9",
+                email: "JCMinorista1@gmail.com"
             },
             {
-                id: "wffmGJDABgWhDboWT",
-                email: "minorista2@ua.com"
+                id: "B6kAnGu9ENkkXzWGH",
+                email: "JCMinorista2@gmail.com"
             },
             {
-                id: "EXS6xFMfYgBJr2uhw",
-                email: "minorista3@ua.com"
+                id: "LW3rg7druqbRhiRJg",
+                email: "JCMinorista3@gmail.com"
             },
             {
-                id: "vYDX7rXKLAGz3goQ5",
-                email: "minorista4@ua.com"
+                id: "Y8v9uEtjNJkKvN2wa",
+                email: "JCMinorista4@gmail.com"
+                
             }
         ];
 
