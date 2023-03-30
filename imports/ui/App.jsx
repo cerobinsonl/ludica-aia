@@ -25,7 +25,8 @@ export class App extends Component {
             beginsAt: new Date().valueOf(),
             countdownBegin: Date.now(),
             simTime: 0,
-            primero: 6
+            primero: 6,
+            puntaje:0
         }
         this.simulate = this.simulate.bind(this);
         this.endSimulation = this.endSimulation.bind(this);
@@ -106,6 +107,14 @@ export class App extends Component {
 
     printResults() {
         let results = "[";
+        let puntaje = 0;
+        let contadorMinoristas = {
+            'JCMinorista1@gmail.com':7,
+            'JCMinorista2@gmail.com':7,
+            'JCMinorista3@gmail.com':7,
+            'JCMinorista4@gmail.com': 7,
+            'JCCentroDistribucion@gmail.com': 15,
+        }
         this.props.all.forEach((item) => {
             let amount = item.amount;
             let answered = item.answered;
@@ -115,7 +124,37 @@ export class App extends Component {
             let Ctime = item.createdAt;
             let Atime = item.acceptedAt - this.state.beginsAt;
             let Dtime = item.declinedAt - this.state.beginsAt;
+            let Vencido = item.expired;
 
+            //Actualizamos Contador
+            if (!(
+                item.providerEmail.includes('JCPlanta') || 
+                item.providerEmail.includes('cliente'))
+                ){
+                contadorMinoristas[item.providerEmail] -= item.answered ? item.amount : 0;
+            }
+            if(contadorMinoristas[item.clientEmail]!==undefined){ //Si no existe, devuelve undefined y no entra a if
+                contadorMinoristas[item.clientEmail] += item.answered ? item.amount : 0;
+            }
+
+            //Actualizar Suma
+            if (item.providerEmail.includes('JCMinorista')){ //Si es minorista
+                if (item.expired) puntaje -= 500;  // Y se expira
+                if (item.answered) puntaje += item.amount * 1110; //Y Si se responde la orden
+                puntaje -= contadorMinoristas[item.providerEmail] * 6;//Y si mantiene inventario
+            }
+
+            if (item.providerEmail.includes('JCCentro')){ //Si es centro
+                if (item.expired) puntaje -= 460; // Y si se expira
+                if (item.result) puntaje -= 115; // Y si Aceptado
+                puntaje -= contadorMinoristas[item.providerEmail] * 3; // Y si mantiene inventario
+            }
+
+            if (item.providerEmail.includes('JCPlanta')){
+                if (item.result) puntaje -= (50 * item.amount) - 150; //Y si Aceptado
+            }
+
+            this.setState({puntaje:puntaje});
             let entry =
                 `{"cantidad": "${amount}","estado": "${!answered?"En espera de respuesta":result}","cliente": "${clientEmail}","proveedor": "${providerEmail}", "tiempoCreacion": "${Ctime}", "tiempoAceptar": "${Atime}", "tiempoDeclinar": "${Dtime}" },`;
             results = results.concat(entry);
@@ -193,6 +232,9 @@ export class App extends Component {
                                                             <button className="btn btn-default" onClick={this.copy}>
                                                                 Copiar resultados
                                                             </button>
+                                                        </div>
+                                                        <div className="col-row">
+                                                            <h3>Puntaje Final: {this.state.puntaje}</h3> 
                                                         </div>
                                                         <div className="col-row">
                                                             <textarea className="boxsizingBorder"
