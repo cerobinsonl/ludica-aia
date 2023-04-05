@@ -102,10 +102,9 @@ export class App extends Component {
     this.setState({ simTime: simulationTime * 60000 });
 
     const id = Meteor.setInterval(this.simulate, intervalTime * 1000);
-    Meteor.setTimeout(() => {
-      this.endSimulation.bind(null, id);
-      this.updatePuntaje();
-    }, simulationTime * 60000);
+    Meteor.setTimeout( 
+      this.endSimulation.bind(null, id)
+    , simulationTime * 60000);
 
     const id2 = Meteor.setInterval(
       this.expire.bind(null, orderTime * 1000),
@@ -139,6 +138,7 @@ export class App extends Component {
     Meteor.clearInterval(id);
     Meteor.call("orders.delete");
     this.setState({ end: true });
+    this.updatePuntaje();
   }
 
   restart() {
