@@ -25,6 +25,14 @@ export class App extends Component {
             primero: 6,
             puntaje: 0,
         };
+        this.contadorfaltantes = {
+            "JCPlanta@gmail.com": 0,
+            "JCCentroDistribucion@gmail.com": 0,
+            "JCMinorista1@gmail.com": 0,
+            "JCMinorista2@gmail.com": 0,
+            "JCMinorista3@gmail.com": 0,
+            "JCMinorista4@gmail.com": 0,
+        };
         this.simulate = this.simulate.bind(this);
         this.endSimulation = this.endSimulation.bind(this);
         this.restart = this.restart.bind(this);
@@ -36,13 +44,22 @@ export class App extends Component {
 
     async updatePuntaje() {
         let puntaje = 0;
-        let contadorMinoristas = {
+        let contadorInventarios = {
             "JCMinorista1@gmail.com": 7,
             "JCMinorista2@gmail.com": 7,
             "JCMinorista3@gmail.com": 7,
             "JCMinorista4@gmail.com": 7,
             "JCCentroDistribucion@gmail.com": 15,
         };
+        let contadorfaltantes = {
+            "JCPlanta@gmail.com": 0,
+            "JCCentroDistribucion@gmail.com": 0,
+            "JCMinorista1@gmail.com": 0,
+            "JCMinorista2@gmail.com": 0,
+            "JCMinorista3@gmail.com": 0,
+            "JCMinorista4@gmail.com": 0,
+        };
+
         await this.props.all.forEach((item) => {
             //Actualizamos Contador
             if (
@@ -51,43 +68,50 @@ export class App extends Component {
                     item.providerEmail.includes("cliente")
                 )
             ) {
-                contadorMinoristas[item.providerEmail] -= item.answered
+                contadorInventarios[item.providerEmail] -= item.answered
                     ? item.amount
                     : 0;
             }
-            if (contadorMinoristas[item.clientEmail] !== undefined) {
+            if (contadorInventarios[item.clientEmail] !== undefined) {
                 //Si no existe, devuelve undefined y no entra a if
-                contadorMinoristas[item.clientEmail] += item.answered ? item.amount : 0;
+                contadorInventarios[item.clientEmail] += item.answered ? item.amount : 0;
             }
 
             //Actualizar Suma
             if (item.providerEmail.includes("JCMinorista")) {
                 //Si es minorista
-                if (item.expired) {
+                if (item.expired || !item.answered) {
                     puntaje -= 500;
-                } // Y se expira
+                    contadorfaltantes[item.providerEmail] += item.amount;
+                } // Se penaliza si el pedido expira o se rechaza y se suma a contador de faltantes
                 if (item.answered) {
                     puntaje += item.amount * 1110;
                 } //Y Si se responde la orden
-                puntaje -= contadorMinoristas[item.providerEmail] * 6; //Y si mantiene inventario
+                puntaje -= contadorInventarios[item.providerEmail] * 6; //Y si mantiene inventario
+                
+                
             }
 
             if (item.providerEmail.includes("JCCentro")) {
                 //Si es centro
-                if (item.expired) {
+                if (item.expired || !item.answered) {
                     puntaje -= 460;
+                    contadorfaltantes[item.providerEmail] += item.amount;
                 } // Y si se expira
                 if (item.result) {
                     puntaje -= 115;
                 } // Y si Aceptado
-                puntaje -= contadorMinoristas[item.providerEmail] * 3; // Y si mantiene inventario
+                puntaje -= contadorInventarios[item.providerEmail] * 3; // Y si mantiene inventario
             }
 
             if (item.providerEmail.includes("JCPlanta")) {
                 if (item.result) puntaje -= 50 * item.amount - 150; //Y si Aceptado
+                if (item.expired || !item.answered) {
+                    contadorfaltantes[item.providerEmail] += item.amount;
+                }
             }
         });
-        this.setState({ puntaje: puntaje });
+        this.setState({ puntaje: puntaje, contadorfaltantes: contadorfaltantes });
     }
 
     onAdd(amount) {
@@ -155,6 +179,33 @@ export class App extends Component {
         alert("Los resultados fueron copiados al portapapeles");
     }
 
+    tablaFaltantes() {
+        const { contadorfaltantes } = this.state;
+    
+        if (!contadorfaltantes) {
+            return null;
+        }
+    
+        return (
+            <table className="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Proveedor</th>
+                        <th>Faltantes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {Object.keys(contadorfaltantes).map((provider) => (
+                        <tr key={provider}>
+                            <td>{provider}</td>
+                            <td>{contadorfaltantes[provider]}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        );
+    }
+
     printResults() {
         let results = "[";
         this.props.all.forEach((item) => {
@@ -182,7 +233,7 @@ export class App extends Component {
         return (
             <div className="App">
                 <div className="container">
-                    <h1>Lúdica Logística AIA</h1>
+                    <h1>IIND 3221 Logística: Beer Game</h1>
 
                     <div id="sign-in-place">
                         <AccountsUIWrapper />
@@ -237,7 +288,8 @@ export class App extends Component {
                                                             </button>
                                                         </div>
                                                         <div className="col-row">
-                                                            <h3>Puntaje Final: {this.state.puntaje}</h3>
+                                                            <h3>Resultados: {this.state.puntaje}</h3>
+                                                            {this.tablaFaltantes()} 
                                                         </div>
                                                         <div className="col-row">
                                                             <textarea
