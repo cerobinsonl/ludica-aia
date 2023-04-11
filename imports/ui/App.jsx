@@ -61,6 +61,9 @@ export class App extends Component {
         };
 
         await this.props.all.forEach((item) => {
+            if (isNaN(item.amount)) {
+                return; // Skip this iteration
+            }
             //Actualizamos Contador
             if (
                 !(
@@ -80,7 +83,7 @@ export class App extends Component {
             //Actualizar Suma
             if (item.providerEmail.includes("JCMinorista")) {
                 //Si es minorista
-                if (item.expired || !item.answered) {
+                if (item.expired || (item.answered & !item.result & !item.expired)) {
                     puntaje -= 500;
                     contadorfaltantes[item.providerEmail] += item.amount;
                 } // Se penaliza si el pedido expira o se rechaza y se suma a contador de faltantes
@@ -94,7 +97,7 @@ export class App extends Component {
 
             if (item.providerEmail.includes("JCCentro")) {
                 //Si es centro
-                if (item.expired || !item.answered) {
+                if (item.expired || (item.answered & !item.result & !item.expired)) {
                     puntaje -= 460;
                     contadorfaltantes[item.providerEmail] += item.amount;
                 } // Y si se expira
@@ -106,7 +109,7 @@ export class App extends Component {
 
             if (item.providerEmail.includes("JCPlanta")) {
                 if (item.result) puntaje -= 50 * item.amount - 150; //Y si Aceptado
-                if (item.expired || !item.answered) {
+                if (item.expired || (item.answered & !item.result & !item.expired)) {
                     contadorfaltantes[item.providerEmail] += item.amount;
                 }
             }
